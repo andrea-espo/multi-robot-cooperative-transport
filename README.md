@@ -128,14 +128,14 @@ ros2 launch turtlebot3_bringup robot.launch.py \
 # Terminal 4 - Robot 1
 ros2 launch turtlebot3_navigation2 navigation2.launch.py \
   namespace:=<robot_1_ns> \
-  map:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/map/mappa_buona.yaml \
+  map:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/map/<your_map>.yaml \
   params_file:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/param/burger_3.yaml \
   use_sim_time:=false
 
 # Terminal 5 - Robot 2
 ros2 launch turtlebot3_navigation2 navigation2.launch.py \
   namespace:=<robot_2_ns> \
-  map:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/map/mappa_buona.yaml \
+  map:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/map/<your_map>.yaml \
   params_file:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/param/burger.yaml \
   use_sim_time:=false
 
