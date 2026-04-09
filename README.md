@@ -94,22 +94,76 @@ The following files were modified or added with respect to the official TurtleBo
 
 ## How to Run
 
+All commands are intended to be executed in separate terminals after building the workspace and sourcing the environment:
+
 ```bash
-# Build the workspace
+# =========================================================
+# 1. Build the workspace
+# =========================================================
+cd <your_ws>
 colcon build
 source install/setup.bash
 
-# Launch robot bringup
-ros2 launch turtlebot3_bringup robot.launch.py
+# =========================================================
+# 2. SLAM (optional - for mapping)
+# =========================================================
+# Terminal 1
+ros2 launch turtlebot3_cartographer cartographer.launch.py \
+  namespace:=<robot_1_ns>
 
-# Launch navigation
-ros2 launch turtlebot3_navigation2 navigation2.launch.py map:=<path_to_map.yaml>
+# =========================================================
+# 3. Robot Bringup (for each robot)
+# =========================================================
+# Terminal 2 - Robot 1
+ros2 launch turtlebot3_bringup robot.launch.py \
+  namespace:=<robot_1_ns>
 
-# Launch cooperative transport controller
-python3 <workspace_path>/src/turtlebot3/turtlebot3_navigation2/scripts/formation_follower.py
+# Terminal 3 - Robot 2
+ros2 launch turtlebot3_bringup robot.launch.py \
+  namespace:=<robot_2_ns>
 
-## Author
+# =========================================================
+# 4. Navigation2 (for each robot)
+# =========================================================
+# Terminal 4 - Robot 1
+ros2 launch turtlebot3_navigation2 navigation2.launch.py \
+  namespace:=<robot_1_ns> \
+  map:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/map/mappa_buona.yaml \
+  params_file:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/param/burger_3.yaml \
+  use_sim_time:=false
 
-**Andrea Esposito**  
-Master's Degree in Computer Engineering  
-Politecnico di Torino
+# Terminal 5 - Robot 2
+ros2 launch turtlebot3_navigation2 navigation2.launch.py \
+  namespace:=<robot_2_ns> \
+  map:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/map/mappa_buona.yaml \
+  params_file:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/param/burger.yaml \
+  use_sim_time:=false
+
+# =========================================================
+# 5. Formation Control & Cooperative Transport
+# =========================================================
+# Terminal 6 - TF aggregation
+python3 <your_ws>/src/turtlebot3/turtlebot3_navigation2/scripts/tf_aggregator.py
+
+# Terminal 7 - Virtual center computation
+python3 <your_ws>/src/turtlebot3/turtlebot3_navigation2/scripts/virtual_center.py
+
+# Terminal 8 - Teleoperation of the virtual frame
+ros2 run teleop_twist_keyboard teleop_twist_keyboard \
+  --ros-args -r cmd_vel:=/formation/cmd_vel
+
+# Terminal 9 - Formation controller
+python3 <your_ws>/src/turtlebot3/turtlebot3_navigation2/scripts/formation_controller_speed.py
+
+# Terminal 10 - Follower robot 1
+python3 <your_ws>/src/turtlebot3/turtlebot3_navigation2/scripts/formation_follower.py \
+  --ros-args \
+  -p robot_ns:=<robot_1_ns> \
+  -p bt_xml_path:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/scripts/follow_point_tb3_3.xml
+
+# Terminal 11 - Follower robot 2
+python3 <your_ws>/src/turtlebot3/turtlebot3_navigation2/scripts/formation_follower.py \
+  --ros-args \
+  -p robot_ns:=<robot_2_ns> \
+  -p side_sign:=1.0 \
+  -p bt_xml_path:=<your_ws>/src/turtlebot3/turtlebot3_navigation2/scripts/follow_point_tb3_3.xml
