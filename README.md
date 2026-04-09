@@ -46,3 +46,19 @@ colcon build
 source install/setup.bash
 ros2 launch turtlebot3_bringup robot.launch.py
 ros2 launch turtlebot3_navigation2 navigation2.launch.py
+
+## Requirements
+
+- ROS 2 Jazzy  
+- TurtleBot3 packages  
+- Nav2 stack  
+- Cartographer  
+
+---
+
+## Author
+
+Andrea Esposito  
+Master’s Degree in Computer Engineering  
+Politecnico di Torino  
+
