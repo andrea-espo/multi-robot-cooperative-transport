@@ -23,4 +23,18 @@ The main contributions of this project include:
 - Custom configuration of the ROS 2 Nav2 stack for multi-robot navigation  
 - Obstacle-aware navigation with formation adaptation  
 - Implementation of a virtual frame-based coordination strategy  
-- Custom launch files and system configuration for multi-robot deployment  
+- Custom launch files and system configuration for multi-robot deployment
+
+## Modified Components
+
+The following TurtleBot3 components have been adapted and extended for this project:
+
+- `turtlebot3_bringup`: customized launch files and robot configuration  
+- `turtlebot3_navigation2`: modified navigation parameters and multi-robot setup  
+- `turtlebot3_cartographer`: adjusted SLAM configuration for experimental scenarios  
+
+Additional custom configurations include:
+- multi-robot namespace management  
+- TF remapping and frame coordination  
+- navigation parameter tuning  
+  
