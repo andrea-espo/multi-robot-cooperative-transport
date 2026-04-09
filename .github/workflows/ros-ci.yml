@@ -4,9 +4,9 @@ name: CI
 # Specifies the events that trigger the workflow
 on:
   push:
-    branches: [ humble, jazzy, main ]
+    branches: [ humble, jazzy ]
   pull_request:
-    branches: [ humble, jazzy, main ]
+    branches: [ humble, jazzy ]
 
 # Defines a set of jobs to be run as part of the workflow
 jobs:
