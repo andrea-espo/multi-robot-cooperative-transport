@@ -1,4 +1,4 @@
-# Multi-Robot Cooperative Transport for TurtleBot3 (ROS 2 Jazzy)
+# Multi-Robot Cooperative Transport with Tethered TurtleBot3 (ROS 2 Jazzy)
 
 ## Overview
 
@@ -18,17 +18,36 @@ This repository is based on the official TurtleBot3 ROS 2 packages and includes 
 
 The original TurtleBot3 stack is used as the experimental and software foundation, while the main contributions of this work focus on multi-robot coordination, adaptive formation control, customized navigation behavior, and cooperative transport using tethered robots.
 
+Only the files listed in the "Modified Files" section represent original contributions of this work.
+
 ---
 
 ## Main Contributions
 
-- Development of a multi-robot system based on two TurtleBot3 Burger platforms
-- Implementation of adaptive formation control strategies
-- Integration of cooperative transport using a flexible tether between robots
-- Custom configuration of the ROS 2 Nav2 stack for multi-robot navigation
-- Obstacle-aware navigation with formation adaptation
-- Implementation of a virtual frame-based coordination strategy
-- Custom launch files and system configuration for multi-robot deployment
+- Development of a multi-robot system based on two TurtleBot3 Burger platforms  
+- Implementation of adaptive formation control strategies  
+- Integration of cooperative transport using a flexible tether between robots  
+- Custom configuration of the ROS 2 Nav2 stack for multi-robot navigation  
+- Obstacle-aware navigation with formation adaptation  
+- Implementation of a virtual frame-based coordination strategy  
+- Custom launch files and system configuration for multi-robot deployment  
+
+---
+
+## Cooperative Transport Mechanism
+
+The transport system is based on two TurtleBot3 robots physically connected by a flexible tether, with the payload attached at the midpoint of the cable.
+
+This setup introduces mechanical coupling between the robots, requiring coordinated motion to ensure stable transport.
+
+Key aspects of the system include:
+
+- Force transmission through the tether, affecting robot dynamics  
+- Constraints on relative motion between robots  
+- Coupled navigation behavior during obstacle avoidance  
+- Centralized coordination to maintain formation while transporting the payload  
+
+The control strategy accounts for these constraints by adapting formation geometry and robot velocities in real time.
 
 ---
 
@@ -37,6 +56,7 @@ The original TurtleBot3 stack is used as the experimental and software foundatio
 The following files were modified or added with respect to the official TurtleBot3 repository:
 
 ### Modified
+
 | File | Description |
 |------|-------------|
 | `turtlebot3/CMakeLists.txt` | Updated build configuration |
@@ -47,16 +67,15 @@ The following files were modified or added with respect to the official TurtleBo
 | `turtlebot3_navigation2/rviz/tb3_navigation2.rviz` | Custom RViz layout for multi-robot visualization |
 
 ### Added
+
 | File | Description |
 |------|-------------|
 | `turtlebot3_navigation2/param/burger_3.yaml` | Nav2 parameters for the second robot |
 | `turtlebot3_navigation2/map/map_free.*` | Map of open environment |
 | `turtlebot3_navigation2/map/map_room.*` | Map of room environment |
 | `turtlebot3_navigation2/map/mappa_buona.*` | Final experimental map |
-| `turtlebot3_navigation2/scripts/central_formation_control.py` | Central formation control node |
-| `turtlebot3_navigation2/scripts/central_formation_lateral.py` | Lateral formation control node |
 | `turtlebot3_navigation2/scripts/formation_controller_speed.py` | Speed-based formation controller |
-| `turtlebot3_navigation2/scripts/formation_follower.py` | Follower robot formation node |
+| `turtlebot3_navigation2/scripts/formation_follower.py` | Follower-based cooperative transport controller|
 | `turtlebot3_navigation2/scripts/virtual_center.py` | Virtual frame center computation |
 | `turtlebot3_navigation2/scripts/tf_aggregator.py` | TF frame aggregation for multi-robot coordination |
 | `turtlebot3_navigation2/scripts/robot_pose_reader.py` | Robot pose reading utility |
@@ -66,54 +85,25 @@ The following files were modified or added with respect to the official TurtleBo
 
 ## Requirements
 
-- ROS 2 Jazzy
-- TurtleBot3 packages
-- Nav2 stack
-- Cartographer ROS
+- ROS 2 Jazzy  
+- TurtleBot3 packages  
+- Nav2 stack  
+- Cartographer ROS  
 
 ---
 
 ## How to Run
 
-### 1. Build the workspace
-
 ```bash
-cd ~/turtlebot3_ws
+# Build the workspace
 colcon build
 source install/setup.bash
-```
 
-### 2. Launch SLAM (mapping)
-
-```bash
-# Terminal 1 — bring up the robot
+# Launch robot bringup
 ros2 launch turtlebot3_bringup robot.launch.py
 
-# Terminal 2 — start Cartographer
-ros2 launch turtlebot3_cartographer cartographer.launch.py
-```
-
-### 3. Launch Navigation
-
-```bash
-# Terminal 1 — bring up the robot
-ros2 launch turtlebot3_bringup robot.launch.py
-
-# Terminal 2 — start Nav2
+# Launch navigation
 ros2 launch turtlebot3_navigation2 navigation2.launch.py map:=<path_to_map.yaml>
-```
 
-### 4. Launch Formation Control
-
-```bash
-# Terminal 3 — start formation controller
-ros2 run turtlebot3_navigation2 central_formation_control.py
-```
-
----
-
-## Author
-
-**Andrea Esposito**  
-Master's Degree in Computer Engineering  
-Politecnico di Torino
+# Launch cooperative transport controller
+python3 <workspace_path>/src/turtlebot3/turtlebot3_navigation2/scripts/formation_follower.py
