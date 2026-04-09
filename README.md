@@ -12,3 +12,15 @@ The project focuses on coordinated motion in cluttered indoor environments, with
 This repository is based on the official TurtleBot3 ROS 2 packages and includes custom extensions and modifications developed for the thesis project.
 
 The original TurtleBot3 stack is used as the experimental and software foundation, while the main contributions of this work focus on multi-robot coordination, adaptive formation control, customized navigation behavior, and cooperative transport using tethered robots.
+
+## Main Contributions
+
+The main contributions of this project include:
+
+- Development of a multi-robot system based on two TurtleBot3 platforms  
+- Implementation of adaptive formation control strategies  
+- Integration of cooperative transport using a flexible tether between robots  
+- Custom configuration of the ROS 2 Nav2 stack for multi-robot navigation  
+- Obstacle-aware navigation with formation adaptation  
+- Implementation of a virtual frame-based coordination strategy  
+- Custom launch files and system configuration for multi-robot deployment  
