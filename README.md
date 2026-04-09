@@ -50,7 +50,9 @@ Key aspects of the system include:
 The control strategy accounts for these constraints by adapting formation geometry and robot velocities in real time.
 
 
-![Experimental Setup](foto_setup.jpg)
+<p align="center">
+  <img src="foto_setup.jpg" width="400"/>
+</p>
 
 ---
 
