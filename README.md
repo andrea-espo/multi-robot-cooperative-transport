@@ -107,3 +107,9 @@ ros2 launch turtlebot3_navigation2 navigation2.launch.py map:=<path_to_map.yaml>
 
 # Launch cooperative transport controller
 python3 <workspace_path>/src/turtlebot3/turtlebot3_navigation2/scripts/formation_follower.py
+
+## Author
+
+**Andrea Esposito**  
+Master's Degree in Computer Engineering  
+Politecnico di Torino
