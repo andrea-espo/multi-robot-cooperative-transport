@@ -51,7 +51,7 @@ The control strategy accounts for these constraints by adapting formation geomet
 
 
 <p align="center">
-  <img src="foto_setup.jpg" width="400"/>
+  <img src="foto_setup.jpg" width="300"/>
 </p>
 
 ---
