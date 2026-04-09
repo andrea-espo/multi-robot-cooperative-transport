@@ -38,3 +38,11 @@ Additional custom configurations include:
 - TF remapping and frame coordination  
 - navigation parameter tuning  
   
+## How to Run
+
+### 1. Build the workspace
+```bash
+colcon build
+source install/setup.bash
+ros2 launch turtlebot3_bringup robot.launch.py
+ros2 launch turtlebot3_navigation2 navigation2.launch.py
