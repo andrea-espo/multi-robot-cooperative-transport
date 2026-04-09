@@ -1,0 +1,17 @@
+<root BTCPP_format="4" main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <PipelineSequence name="FollowDynamicPoint">
+      <ControllerSelector selected_controller="{selected_controller}" default_controller="FollowPath" topic_name="controller_selector"/>
+      <PlannerSelector selected_planner="{selected_planner}" default_planner="GridBased" topic_name="planner_selector"/>
+
+      <!-- Replan at fixed rate; GoalUpdater listens to /goal_update (namespaced -> /tb3_3/goal_update) -->
+      <RateController hz="0.5">
+        <GoalUpdater input_goal="{goal}" output_goal="{updated_goal}">
+          <ComputePathToPose goal="{updated_goal}" path="{path}" planner_id="{selected_planner}"/>
+        </GoalUpdater>
+      </RateController>
+
+      <FollowPath path="{path}" controller_id="{selected_controller}"/>
+    </PipelineSequence>
+  </BehaviorTree>
+</root> 

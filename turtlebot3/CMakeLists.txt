@@ -16,4 +16,9 @@ find_package(ament_cmake REQUIRED)
 ################################################################################
 # Macro for ament package
 ################################################################################
+install(PROGRAMS
+  scripts/tf_aggregator.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()
