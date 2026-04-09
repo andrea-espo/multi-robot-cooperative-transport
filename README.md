@@ -51,11 +51,9 @@ The control strategy accounts for these constraints by adapting formation geomet
 
 
 <p align="center">
-  <img src="foto_setup.jpg" width="450"/>
+  <img src="foto_setup.jpg" width="300"/>
 </p>
-<p align="center">
-  <em>Experimental setup with two TurtleBot3 robots connected by a flexible tether for cooperative transport.</em>
-</p>
+
 
 ---
 
